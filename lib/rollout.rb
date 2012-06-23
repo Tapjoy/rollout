@@ -94,6 +94,10 @@ class Rollout
     def user_within_active_percentage?(feature, user)
       percentage = active_percentage(feature)
       return false if percentage.nil?
-      user.id % 100 < percentage.to_i
+      if user.id.class == Fixnum
+        user.id % 100 < percentage.to_i
+      else
+        user.created_at.to_i % 100 < percentage.to_i
+      end
     end
 end
